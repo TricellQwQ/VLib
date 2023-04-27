@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Library</h1>
+{% if current_user.is_authenticated and current_user.email == "nikitvinogradov@gmail.com" %}
+    <a href="/book_common" class="btn btn-secondary">Add a book</a>
+    <a href="/book_openlib" class="btn btn-secondary">Add a book by Open Library ID</a>
+{% endif %}
+{% for book in books%}
+<div class="col-md6 border rounded">
+    <h2>{{book.title}}</h2>
+    <div>
+        {{book.description}}
+    </div>
+    <div>
+        Автор - {{book.author}}, Дата написания - {{book.created_date}}
+    </div>
+    {% if current_user.is_authenticated and current_user.books == None %}
+        <a href="/book_get/{{ book.id }}" class="btn btn-secondary">Take the book</a>
+    {% endif %}
+    {% if current_user.is_authenticated and current_user.email == "nikitvinogradov@gmail.com" %}
+    <a href="/book_delete/{{ book.id }}" class="btn btn-danger">Delete the book</a>
+    {% endif %}
+</div>
+{% endfor %}
+{% endblock %}
